@@ -7,6 +7,8 @@ import time
 import sys
 from PyQt6.QtWidgets import QApplication, QMessageBox, QLabel, QWidget, QVBoxLayout
 from PyQt6.QtCore import QTimer, Qt
+from dotenv import load_dotenv
+import os
 import requests
 
 # URLs of the files
@@ -25,9 +27,18 @@ with open('yolov3.cfg', 'wb') as f:
 
 print("Downloaded yolov3.weights and yolov3.cfg successfully.")
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Get MongoDB URL from environment variable
+mongo_url = os.getenv('MONGO_URL')
+
+# Connect to MongoDB
+client = MongoClient(mongo_url)
+print("Connected to MongoDB")
+
 
 # MongoDB connection
-client = MongoClient('mongodb+srv://hci_user:oUoaJXKsn2MFCeHU@cluster0.gbt6n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 db = client['face_detection_db']
 collection = db['detection_status']
 
